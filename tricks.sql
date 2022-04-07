@@ -8,3 +8,21 @@ SELECT *
 FROM (SELECT ABS(CHECKSUM(NEWID())) % 100 AS rand_int
       FROM my_table) AS t
 WHERE rand_int > 98
+
+-- pivot 
+SELECT *
+FROM
+    (SELECT client_id, date, name, value
+     FROM lab_data
+     WHERE client_id = 4
+       AND (name = 'TOTAL BODY FAT %' OR name = 'SUPINEHR' OR name = 'STANDING HEART RATE 1 MIN')
+    ) t
+        PIVOT
+        (
+        MAX(value) -- the aggreation you want
+        FOR name IN (
+            [TOTAL BODY FAT %],
+            [SUPINEHR],
+            [STANDING HEART RATE 1 MIN]
+        )
+        ) AS pivot_table
