@@ -19,10 +19,16 @@ FROM
     ) t
         PIVOT
         (
-        MAX(value) -- the aggreation you want
+        MAX(value) -- the aggreationq you want
         FOR name IN (
             [TOTAL BODY FAT %],
             [SUPINEHR],
             [STANDING HEART RATE 1 MIN]
         )
         ) AS pivot_table
+
+-- timezone conversion
+SELECT TOP 1 date_time,
+              CONVERT(date, SWITCHOFFSET(date_time, DATEPART(TZOFFSET,
+date_time AT TIME ZONE 'Mountain Standard Time')))
+FROM lab_data
