@@ -32,3 +32,8 @@ SELECT TOP 1 date_time,
               CONVERT(date, SWITCHOFFSET(date_time, DATEPART(TZOFFSET,
 date_time AT TIME ZONE 'Mountain Standard Time')))
 FROM lab_data
+
+-- median 
+SELECT PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY num_of_records) OVER(PARTITION BY data_source), data_source
+from client_data_summary
+
