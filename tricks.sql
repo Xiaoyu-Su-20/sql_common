@@ -37,3 +37,13 @@ FROM lab_data
 SELECT PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY num_of_records) OVER(PARTITION BY data_source), data_source
 from client_data_summary
 
+-- select a column that's the max of multiple columns
+SELECT (
+           SELECT MAX(value)
+           FROM (VALUES (value_1), (value_2), (value_3)) AS sub_table(value)
+       )
+FROM table
+
+-- select the original value of a max absolute value (e.g. max_abs=500, original=-500)
+SELECT MAX(ABS(value)) * (CASE WHEN ABS(MIN(value)) > MAX(value) THEN -1 ELSE 1 END)
+FROM test
