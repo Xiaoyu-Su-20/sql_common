@@ -9,3 +9,12 @@ ORDER BY column_id
 SELECT *
 FROM INFORMATION_SCHEMA.ROUTINES
 WHERE ROUTINE_TYPE = 'PROCEDURE'
+
+-- get all definitions
+SELECT
+    definition,
+    uses_ansi_nulls,
+    uses_quoted_identifier,
+    is_schema_bound
+FROM
+    sys.sql_modules
