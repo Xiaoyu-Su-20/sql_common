@@ -47,3 +47,9 @@ FROM table
 -- select the original value of a max absolute value (e.g. max_abs=500, original=-500)
 SELECT MAX(ABS(value)) * (CASE WHEN ABS(MIN(value)) > MAX(value) THEN -1 ELSE 1 END)
 FROM test
+
+-- create an empty replica of a table 
+SELECT *
+INTO my_table_replica
+FROM my_table
+WHERE 1 = 0
