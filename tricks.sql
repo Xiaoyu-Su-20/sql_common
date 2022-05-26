@@ -53,3 +53,16 @@ SELECT *
 INTO my_table_replica
 FROM my_table
 WHERE 1 = 0
+
+-- use CHECKSUM to whether compare row data is the same
+WITH t AS (
+    SELECT table1.id                                          AS id1,
+           table2.id                                          AS id2,
+           CHECKSUM(table1.tag_1, table1.tag_2, table1.tag_3) AS checksum_1,
+           CHECKSUM(table2.tag_1, table2.tag_2, table2.tag_3) AS checksum_2
+    FROM table1
+             FULL OUTER JOIN table2 ON table1.id = table2.id
+)
+SELECT *
+FROM t
+WHERE checksum_1 != checksum_2;
